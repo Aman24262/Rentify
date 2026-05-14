@@ -46,11 +46,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
-app.use("/api/auth",     require("./routes/authRoutes"));
-app.use("/api/products", require("./routes/productRoutes"));
-app.use("/api/orders",   require("./routes/orderRoutes"));
-app.use("/api/users",    require("./routes/userRoutes"));
-app.use("/api/contact",  require("./routes/contactRoutes"));
+const authRoutes = require("./routes/authRoutes");
+const productRoutes = require("./routes/productRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const userRoutes = require("./routes/userRoutes");
+const contactRoutes = require("./routes/contactRoutes");
+
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/contact", contactRoutes);
+
+app.use("/auth", authRoutes);
+app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
+app.use("/users", userRoutes);
+app.use("/contact", contactRoutes);
 
 // ─── Health check ─────────────────────────────────────────────────────────────
 app.get("/", (req, res) => {
