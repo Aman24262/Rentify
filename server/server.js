@@ -13,12 +13,11 @@ connectDB();
 const app = express();
 
 // ─── Middleware ────────────────────────────────────────────────────────────────
-// --- Updated CORS Configuration ---
 const allowedOrigins = [
-  'https://rentify-gilt-rho.vercel.app', // Your production frontend
-  /^http:\/\/localhost(:\d+)?$/,        // Any localhost port
-  /^http:\/\/127\.0\.0\.1(:\d+)?$/      // Any loopback port
-];
+  ...(process.env.CLIENT_URLS ? process.env.CLIENT_URLS.split(",") : []),
+  process.env.CLIENT_URL,
+  "https://rentify-gilt-rho.vercel.app",
+].filter(Boolean);
 
 app.use(
   cors({
@@ -26,11 +25,11 @@ app.use(
       // Allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true);
 
-      // Check if the origin matches any of our allowed strings or regex patterns
-      const isAllowed = allowedOrigins.some((allowed) => {
-        if (allowed instanceof RegExp) return allowed.test(origin);
-        return allowed === origin;
-      });
+      const isAllowed =
+        allowedOrigins.includes(origin) ||
+        /^https:\/\/.*\.vercel\.app$/.test(origin) ||
+        /^http:\/\/localhost(:\d+)?$/.test(origin) ||
+        /^http:\/\/127\.0\.0\.1(:\d+)?$/.test(origin);
 
       if (isAllowed) {
         callback(null, true);
