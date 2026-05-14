@@ -13,18 +13,35 @@ connectDB();
 const app = express();
 
 // ─── Middleware ────────────────────────────────────────────────────────────────
+// --- Updated CORS Configuration ---
+const allowedOrigins = [
+  'https://rentify-gilt-rho.vercel.app', // Your production frontend
+  /^http:\/\/localhost(:\d+)?$/,        // Any localhost port
+  /^http:\/\/127\.0\.0\.1(:\d+)?$/      // Any loopback port
+];
+
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true);
-      const isLocalhost = /^http:\/\/localhost(:\d+)?$/.test(origin);
-      const isLoopback = /^http:\/\/127\.0\.0\.1(:\d+)?$/.test(origin);
-      if (isLocalhost || isLoopback) return callback(null, true);
-      return callback(new Error("Not allowed by CORS"));
+
+      // Check if the origin matches any of our allowed strings or regex patterns
+      const isAllowed = allowedOrigins.some((allowed) => {
+        if (allowed instanceof RegExp) return allowed.test(origin);
+        return allowed === origin;
+      });
+
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
     },
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
