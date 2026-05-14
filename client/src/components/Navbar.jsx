@@ -18,20 +18,20 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
 
   const navLinkClass = ({ isActive }) =>
-    `rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-white/10 hover:text-primary-indigo ${
+    `rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-background-soft hover:text-primary-indigo ${
       isActive
         ? "bg-primary-purple/10 text-primary-purple"
         : "text-text-secondary hover:text-text-primary"
     }`;
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-background-dark/80 border-b border-border-default">
+    <header className="sticky top-0 z-50 border-b border-border-default bg-background-card backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
         <Link to="/" className="text-2xl font-black tracking-tight bg-gradient-to-r from-primary-purple to-primary-indigo bg-clip-text text-transparent">
           Rentify
         </Link>
         <button
-          className="rounded-full border border-border-default bg-white/50 p-2 md:hidden backdrop-blur-sm hover:bg-white/70 transition-all duration-300"
+          className="rounded-full border border-border-default bg-background-main p-2 md:hidden backdrop-blur-sm hover:bg-background-soft transition-all duration-300"
           onClick={() => setOpen(!open)}
         >
           <motion.div
@@ -70,7 +70,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: links.length * 0.1 }}
                 onClick={toggleTheme}
-                className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-text-secondary hover:bg-white/10 hover:text-text-primary transition-all duration-300"
+                className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-text-secondary hover:bg-background-soft hover:text-text-primary transition-all duration-300"
               >
                 {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
                 {theme === "dark" ? "Light" : "Dark"}
@@ -148,7 +148,7 @@ export default function Navbar() {
           ))}
           <button
             onClick={toggleTheme}
-            className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-text-secondary hover:bg-white/10 hover:text-text-primary transition-all duration-300"
+            className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-text-secondary hover:bg-background-soft hover:text-text-primary transition-all duration-300"
           >
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
             {theme === "dark" ? "Light" : "Dark"}

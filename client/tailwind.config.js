@@ -8,9 +8,9 @@ export default {
       },
       colors: {
         primary: {
-          indigo: 'var(--primary)',
+          indigo: 'var(--accent-cta)',
           purple: 'var(--primary)',
-          cyan: 'var(--primary-cyan, #06B6D4)',
+          cyan: 'var(--primary-cyan, #D97706)',
         },
         background: {
           main: 'var(--bg)',
@@ -29,11 +29,11 @@ export default {
         },
       },
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(135deg, #EEF2FF, #F5F3FF)',
-        'purple-indigo': 'linear-gradient(to right, #7C3AED, #4F46E5)',
+        'hero-gradient': 'linear-gradient(135deg, var(--bg), var(--bg-soft))',
+        'purple-indigo': 'linear-gradient(to right, var(--primary), var(--accent-cta))',
       },
       boxShadow: {
-        'glow-purple': '0 0 25px rgba(124,58,237,0.35)',
+        'glow-purple': '0 0 25px rgba(6,78,59,0.28)',
         'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         'card': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       },

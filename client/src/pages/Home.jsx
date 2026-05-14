@@ -105,14 +105,14 @@ export default function Home() {
                   ease: "easeInOut",
                 },
               }}
-              className="absolute rounded-2xl bg-white p-4 shadow-card"
+              className="absolute rounded-2xl bg-background-card p-4 shadow-card"
               style={{
                 top: `${20 + index * 25}%`,
                 left: `${10 + index * 30}%`,
                 transform: `rotate(${index * 5}deg)`,
               }}
             >
-              <div className="h-16 w-16 rounded-lg bg-gray-200 mb-2"></div>
+              <div className="mb-2 h-16 w-16 rounded-lg bg-background-soft"></div>
               <p className="text-sm font-semibold text-text-primary">{card.title}</p>
               <p className="text-xs text-text-secondary">{card.price}</p>
             </motion.div>
@@ -200,8 +200,8 @@ export default function Home() {
         ) : shown.length === 0 ? (
           <div className="rounded-2xl bg-background-card p-6 shadow-soft">
             <p>No featured products yet.</p>
-            <p className="mt-2 text-sm text-text-secondary">
-              If this is a fresh setup, run <code className="rounded bg-gray-100 px-2 py-1 text-xs">npm run seed</code> inside <code className="rounded bg-gray-100 px-2 py-1 text-xs">server</code>.
+              <p className="mt-2 text-sm text-text-secondary">
+              If this is a fresh setup, run <code className="rounded bg-background-soft px-2 py-1 text-xs">npm run seed</code> inside <code className="rounded bg-background-soft px-2 py-1 text-xs">server</code>.
             </p>
           </div>
         ) : (

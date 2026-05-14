@@ -29,21 +29,21 @@ export default function AdminOrders() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-slate-700 bg-slate-950 p-4">
+      <div className="rounded-2xl border border-border-default bg-background-card p-4 shadow-soft">
         <h1 className="text-xl font-semibold">Rental Orders</h1>
-        <p className="mt-1 text-sm text-slate-400">Review every rental request and update status accurately.</p>
+        <p className="mt-1 text-sm text-text-secondary">Review every rental request and update status accurately.</p>
       </div>
-      <div className="overflow-x-auto rounded-xl border border-slate-700">
+      <div className="overflow-x-auto rounded-2xl border border-border-default bg-background-card shadow-soft">
         {loading ? (
-          <p className="p-4 text-slate-400">Loading orders...</p>
+          <p className="p-4 text-text-secondary">Loading orders...</p>
         ) : error ? (
-          <p className="p-4 text-rose-300">{error}</p>
+          <p className="p-4 text-[var(--danger)]">{error}</p>
         ) : orders.length === 0 ? (
-          <p className="p-4 text-slate-400">No orders yet.</p>
+          <p className="p-4 text-text-secondary">No orders yet.</p>
         ) : (
           <table className="min-w-full table-fixed text-left text-sm">
-            <thead className="bg-slate-900">
-              <tr className="text-slate-300">
+            <thead className="bg-background-soft">
+              <tr className="text-text-secondary">
                 <th className="px-4 py-3">Product</th>
                 <th className="px-4 py-3">User</th>
                 <th className="px-4 py-3">Delivery Name</th>
@@ -56,7 +56,7 @@ export default function AdminOrders() {
             </thead>
             <tbody>
               {orders.map((order) => (
-                <tr key={order._id} className="border-t border-slate-800">
+                <tr key={order._id} className="border-t border-border-default">
                   <td className="px-4 py-3 text-text-primary truncate">{order.product?.title || "Product removed"}</td>
                   <td className="px-4 py-3 text-text-primary truncate">{order.user?.name || "Unknown user"}</td>
                   <td className="px-4 py-3 text-text-primary truncate">{order.deliveryName}</td>
@@ -65,7 +65,7 @@ export default function AdminOrders() {
                   <td className="px-4 py-3 text-right text-text-primary">{order.rentalDays}</td>
                   <td className="px-4 py-3 text-right text-text-primary">₹{order.totalPrice}</td>
                   <td className="px-4 py-3 text-center">
-                    <select value={order.status} onChange={(e) => updateStatus(order._id, e.target.value)} className="rounded bg-slate-800 p-2">
+                    <select value={order.status} onChange={(e) => updateStatus(order._id, e.target.value)} className="rounded border border-border-default bg-background-main p-2 text-text-primary">
                       {statuses.map((s) => <option key={s}>{s}</option>)}
                     </select>
                   </td>

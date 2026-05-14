@@ -187,7 +187,7 @@ export default function ProductDetail() {
           className={`w-full rounded-full py-4 text-lg font-semibold shadow-soft transition-all duration-300 ${
             product.availability
               ? 'bg-gradient-to-r from-primary-purple to-primary-indigo text-white hover:shadow-glow-purple'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-background-soft text-text-muted cursor-not-allowed'
           }`}
         >
           {!product.availability
@@ -219,7 +219,7 @@ export default function ProductDetail() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-background-main rounded-2xl shadow-card max-w-md w-full p-6"
+            className="bg-background-card rounded-2xl shadow-card max-w-md w-full p-6"
           >
             <h2 className="text-2xl font-bold text-text-primary mb-4">Complete Your Rental</h2>
             <form onSubmit={handleFormSubmit} className="space-y-4">

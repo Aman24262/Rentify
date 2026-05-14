@@ -136,9 +136,9 @@ export default function Dashboard() {
                     {order.user?.name || "Unknown user"} • {order.rentalDays} day(s) • ₹{order.totalPrice}
                   </p>
                   <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium mt-2 ${
-                    order.status === 'approved' ? 'bg-green-100 text-green-800' :
-                    order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-gray-100 text-gray-800'
+                    order.status === 'approved' ? 'bg-[var(--primary-soft)] text-[var(--primary)]' :
+                    order.status === 'pending' ? 'bg-[rgba(217,119,6,0.12)] text-[var(--accent-cta)]' :
+                    'bg-background-soft text-text-secondary'
                   }`}>
                     {order.status}
                   </span>
