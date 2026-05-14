@@ -1,22 +1,16 @@
 const asyncHandler = require("express-async-handler");
-const nodemailer = require("nodemailer");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@rentify.com";
+const { createMailer, getAdminEmail, getFromAddress } = require("../utils/mailer");
 
 const sendOrderNotificationEmail = async (order, user, product) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+  const transporter = createMailer();
+  const adminEmail = getAdminEmail();
+  const fromEmail = getFromAddress();
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: ADMIN_EMAIL,
+    from: fromEmail,
+    to: adminEmail,
     subject: `New Rentify Order: ${product.title}`,
     html: `
       <h2>New Rental Order Received</h2>

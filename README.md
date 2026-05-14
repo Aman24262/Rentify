@@ -31,6 +31,17 @@ JWT_SECRET=rentify_secret_2024
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
+EMAIL_USER=your_email@example.com
+EMAIL_PASS=your_email_password_or_app_password
+ADMIN_EMAIL=admin@example.com
+
+# Optional SMTP settings. If provided, they take priority over Gmail auth.
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_email@example.com
+SMTP_PASS=your_email_password_or_app_password
+SMTP_FROM=no-reply@example.com
 ```
 
 ### `client/.env`

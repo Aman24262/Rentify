@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const nodemailer = require("nodemailer");
 const User = require("../models/User");
+const { createMailer, getAdminEmail, getFromAddress } = require("../utils/mailer");
 
 /**
  * @desc    Send contact email to admin
@@ -22,20 +22,13 @@ const sendContactEmail = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  // Create transporter
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER;
+  const transporter = createMailer();
+  const adminEmail = getAdminEmail();
+  const fromEmail = getFromAddress();
 
   // Email options
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: fromEmail,
     to: adminEmail,
     subject: `Rentify Contact: ${subject}`,
     html: `
@@ -49,7 +42,6 @@ const sendContactEmail = asyncHandler(async (req, res) => {
     `,
   };
 
-  // Send email
   await transporter.sendMail(mailOptions);
 
   res.status(200).json({ message: "Email sent successfully" });
