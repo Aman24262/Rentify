@@ -2,7 +2,7 @@ import axios from "axios";
 
 const rawBaseURL =
   import.meta.env.VITE_API_URL ||
-  "https://rentify-backend-kf5o.onrender.com";
+  (import.meta.env.DEV ? "http://localhost:5000/api" : "/api");
 const normalizedBaseURL = rawBaseURL.replace(/\/+$/, "");
 const apiBaseURL = normalizedBaseURL.endsWith("/api")
   ? normalizedBaseURL

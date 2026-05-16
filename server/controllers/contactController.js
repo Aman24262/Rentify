@@ -42,7 +42,11 @@ const sendContactEmail = asyncHandler(async (req, res) => {
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (emailError) {
+    console.error("Contact email failed:", emailError);
+  }
 
   res.status(200).json({ message: "Email sent successfully" });
 });
