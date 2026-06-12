@@ -1,15 +1,18 @@
 const nodemailer = require("nodemailer");
 
+const cleanEnvValue = (value) => (value ? String(value).trim().replace(/\s+/g, "") : "");
+const cleanEmailValue = (value) => (value ? String(value).trim() : "");
+
 const hasMailCredentials = () =>
-  Boolean(process.env.SMTP_HOST && (process.env.SMTP_USER || process.env.EMAIL_USER) && (process.env.SMTP_PASS || process.env.EMAIL_PASS)) ||
-  Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
+  Boolean(process.env.SMTP_HOST && (cleanEmailValue(process.env.SMTP_USER) || cleanEmailValue(process.env.EMAIL_USER)) && (cleanEnvValue(process.env.SMTP_PASS) || cleanEnvValue(process.env.EMAIL_PASS))) ||
+  Boolean(cleanEmailValue(process.env.EMAIL_USER) && cleanEnvValue(process.env.EMAIL_PASS));
 
 const getMailerConfig = () => {
   const smtpHost = process.env.SMTP_HOST;
   const smtpPort = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined;
   const smtpSecure = process.env.SMTP_SECURE === "true";
-  const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER;
-  const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
+  const smtpUser = cleanEmailValue(process.env.SMTP_USER || process.env.EMAIL_USER);
+  const smtpPass = cleanEnvValue(process.env.SMTP_PASS || process.env.EMAIL_PASS);
 
   if (smtpHost && smtpUser && smtpPass) {
     return {
@@ -23,14 +26,14 @@ const getMailerConfig = () => {
     };
   }
 
-  if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  if (cleanEmailValue(process.env.EMAIL_USER) && cleanEnvValue(process.env.EMAIL_PASS)) {
     return {
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: cleanEmailValue(process.env.EMAIL_USER),
+        pass: cleanEnvValue(process.env.EMAIL_PASS),
       },
     };
   }
@@ -67,9 +70,9 @@ const createMailer = () => {
   return transport;
 };
 
-const getFromAddress = () => process.env.SMTP_FROM || process.env.EMAIL_USER || "no-reply@rentify.com";
+const getFromAddress = () => cleanEmailValue(process.env.SMTP_FROM || process.env.EMAIL_USER) || "no-reply@rentify.com";
 
-const getAdminEmail = () => process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "admin@rentify.com";
+const getAdminEmail = () => cleanEmailValue(process.env.ADMIN_EMAIL || process.env.EMAIL_USER) || "admin@rentify.com";
 
 module.exports = {
   createMailer,
