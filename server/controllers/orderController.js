@@ -80,18 +80,16 @@ const createOrder = asyncHandler(async (req, res) => {
   product.availability = false;
   await product.save();
 
-  // Notify admin by email about the new order
-  try {
-    await sendOrderNotificationEmail(order, req.user, product);
-  } catch (emailError) {
-    console.error("Order notification email failed:", emailError);
-  }
-
   // Populate for response
   const populated = await order.populate([
     { path: "user", select: "name email avatar" },
     { path: "product", select: "title image pricePerDay category" },
   ]);
+
+  // Send the notification email in the background so the UI gets the success response immediately.
+  sendOrderNotificationEmail(order, req.user, product).catch((emailError) => {
+    console.error("Order notification email failed:", emailError);
+  });
 
   res.status(201).json(populated);
 });
