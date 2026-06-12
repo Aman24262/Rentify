@@ -44,6 +44,8 @@ SMTP_PASS=your_email_password_or_app_password
 SMTP_FROM=no-reply@example.com
 ```
 
+For Render deployment, set the same email variables in the Render service environment. If those values are missing, the app will still create orders, but admin notification emails will not be delivered.
+
 ### `client/.env`
 
 ```env

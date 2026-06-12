@@ -1,5 +1,9 @@
 const nodemailer = require("nodemailer");
 
+const hasMailCredentials = () =>
+  Boolean(process.env.SMTP_HOST && (process.env.SMTP_USER || process.env.EMAIL_USER) && (process.env.SMTP_PASS || process.env.EMAIL_PASS)) ||
+  Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
+
 const getMailerConfig = () => {
   const smtpHost = process.env.SMTP_HOST;
   const smtpPort = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined;
@@ -34,7 +38,17 @@ const getMailerConfig = () => {
   };
 };
 
-const createMailer = () => nodemailer.createTransport(getMailerConfig());
+const createMailer = () => {
+  const transport = nodemailer.createTransport(getMailerConfig());
+
+  if (process.env.NODE_ENV === "production" && !hasMailCredentials()) {
+    console.error(
+      "Rentify mailer is running without SMTP credentials in production. Set EMAIL_USER and EMAIL_PASS, or SMTP_HOST/SMTP_USER/SMTP_PASS, plus ADMIN_EMAIL in Render env vars."
+    );
+  }
+
+  return transport;
+};
 
 const getFromAddress = () => process.env.SMTP_FROM || process.env.EMAIL_USER || "no-reply@rentify.com";
 
