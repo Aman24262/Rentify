@@ -25,7 +25,9 @@ const getMailerConfig = () => {
 
   if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
     return {
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -39,11 +41,26 @@ const getMailerConfig = () => {
 };
 
 const createMailer = () => {
-  const transport = nodemailer.createTransport(getMailerConfig());
+  const config = getMailerConfig();
+  const transport = nodemailer.createTransport(config);
 
-  if (process.env.NODE_ENV === "production" && !hasMailCredentials()) {
+  if (process.env.NODE_ENV === "production") {
+    const provider = config.jsonTransport
+      ? "jsonTransport"
+      : config.service || config.host || "custom";
+
+    console.log(`Rentify mailer initialized with ${provider} transport`);
+
+    if (!hasMailCredentials()) {
+      console.error(
+        "Rentify mailer is running without SMTP credentials in production. Set EMAIL_USER and EMAIL_PASS, or SMTP_HOST/SMTP_USER/SMTP_PASS, plus ADMIN_EMAIL in Render env vars."
+      );
+    }
+  }
+
+  if (process.env.NODE_ENV === "production" && config.jsonTransport) {
     console.error(
-      "Rentify mailer is running without SMTP credentials in production. Set EMAIL_USER and EMAIL_PASS, or SMTP_HOST/SMTP_USER/SMTP_PASS, plus ADMIN_EMAIL in Render env vars."
+      "Rentify mailer fell back to jsonTransport in production, so no real email will be delivered. Update Render env vars and redeploy."
     );
   }
 
