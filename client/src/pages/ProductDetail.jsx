@@ -49,6 +49,10 @@ export default function ProductDetail() {
     }
     setIsSubmitting(true);
     try {
+      const requestConfig = token
+        ? { headers: { Authorization: `Bearer ${token}` } }
+        : undefined;
+
       await api.post("/orders", { 
         productId: id, 
         rentalDays: days,
@@ -56,7 +60,7 @@ export default function ProductDetail() {
         deliveryAddress: formData.deliveryAddress,
         contactNumber: formData.contactNumber,
         paymentMethod: formData.paymentMethod
-      });
+      }, requestConfig);
       toast.success("Order created successfully");
       setShowModal(false);
       navigate("/profile");
